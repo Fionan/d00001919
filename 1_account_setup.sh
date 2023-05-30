@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# This script allows for creation of Departments Roles and User files in .csv  File format.
+# The scripts in this repository should be run in order by file name
+# This script will create a menu where users can define Departments and roles and users
+
 # Define the paths to the CSV files
 DEPARTMENTS_FILE="Departments.csv"
 ROLES_FILE="Roles.csv"
@@ -18,7 +22,7 @@ if [[ ! -f "$USERS_FILE" ]]; then
     touch "$USERS_FILE"
 fi
 
-# Function to read file contents into an array
+# Function to read file contents into an array for acessing later
 read_file_contents() {
     local file="$1"
     local -n array="$2"
@@ -33,7 +37,7 @@ read_file_contents "$DEPARTMENTS_FILE" departments_array
 read_file_contents "$ROLES_FILE" roles_array
 read_file_contents "$USERS_FILE" users_array
 
-# Function to create a new department
+# Function to create a new department menu option for Departments.csv
 create_department() {
     read -p "Enter the department name: " department
     if [[ " ${departments_array[*]} " =~ " ${department} " ]]; then
@@ -51,7 +55,7 @@ create_department() {
     fi
 }
 
-# Function to create a new role
+# Function to create a new role menu option for Roles.csv creation
 create_role() {
     read -p "Enter the role name: " role
     if [[ " ${roles_array[*]} " =~ " ${role} " ]]; then
@@ -69,11 +73,11 @@ create_role() {
     fi
 }
 
-# Function to create a new user
+# Function to create a new user using department and role to generate users.cvs finished file
 create_user() {
     read -p "Enter the user name: " user
     
-    # Submenu for selecting the department
+    # Submenu for selecting the department - submenu helps eliminate errors
     echo "Select the department for $user:"
     select department in "${departments_array[@]}" "Cancel"; do
         case "$REPLY" in
@@ -91,6 +95,7 @@ create_user() {
     done
     
     read -p "Enter the role: " role
+    # Check if user already exists
     if [[ " ${users_array[*]} " =~ " ${user},${department},${role} " ]]; then
         echo "User '$user' with department '$department' and role '$role' already exists."
         return
@@ -114,7 +119,7 @@ view_file_contents() {
     echo "----------------"
 }
 
-# Function to save changes and exit
+# Function to save changes and exit  - Updates the CSV files for future use
 save_and_exit() {
     echo "Saving changes and exiting."
     printf "%s\n" "${departments_array[@]}" > "$DEPARTMENTS_FILE"
@@ -167,3 +172,4 @@ while true; do
             ;;
     esac
 done
+# End of file
