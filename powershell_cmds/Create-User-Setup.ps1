@@ -40,7 +40,7 @@ function Create-User {
     $Groups = @()
 
 
-    # use a simple switch method to add choise to our group list
+    # use a simple switch method to add choice to our group list
     # Ensure these hardcoded values are the same Linux /Windows
     switch ($RoleChoice) {
         "1" {
@@ -79,7 +79,7 @@ function Create-User {
             $Groups += "ticketingdepartment"
         }
     }
-
+    # We can store values in an array like this for easy legibility
     $UserParams = @{
         'GivenName' = $FirstName
         'Surname' = $LastName
