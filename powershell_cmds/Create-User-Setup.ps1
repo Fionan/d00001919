@@ -40,7 +40,7 @@ function Create-User {
     $Groups = @()
 
 
-    # use a simple swithc method to add choise to our group list
+    # use a simple switch method to add choise to our group list
     # Ensure these hardcoded values are the same Linux /Windows
     switch ($RoleChoice) {
         "1" {
